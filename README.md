@@ -3,4 +3,5 @@ Adblocker for the Windows desktop Spotify client. Works by blocking DNS lookups 
 
 ## Usage
  - Build project (debug builds write logs)
+ - Create a `blacklist.txt` file containing all the hostnames you want to block (one per line)
  - Start `injector.exe`
