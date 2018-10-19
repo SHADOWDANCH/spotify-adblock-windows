@@ -29,15 +29,38 @@ void Log(const std::string& severity, const std::string& text)
 
 INT WSAAPI getaddrinfoHook(const char* pNodeName, const char* pServiceName, const ADDRINFOA* pHints, PADDRINFOA* ppResult)
 {
-	if (std::find(whitelist.begin(), whitelist.end(), pNodeName) == whitelist.end())
+	std::string hostname(pNodeName);
+	bool whitelisted = false;
+
+	// Iterate through whitelist
+	for (auto const& i : whitelist)
 	{
-		Log("INFO", "Blocking " + std::string(pNodeName));
+		if (i == hostname) // check if hostname exactly matches
+		{
+			whitelisted = true;
+		}
+		else if (i.find('*') != std::string::npos) // very basic wildcard support
+		{
+			// Split string by *
+			std::string token = i.substr(i.find('*') + 1); // right of *
+
+			// Check if hostname includes token
+			if (hostname.find(token) != std::string::npos)
+			{
+				whitelisted = true;
+			}
+		}
+	}
+
+	if (!whitelisted)
+	{
+		Log("INFO", "Blocking " + hostname);
 		pNodeName = "0.0.0.0";
 	}
 	else
 	{
-		//Log("INFO", "Allowing " + std::string(pNodeName));
-	}	
+		Log("INFO", "Allowing " + hostname);
+	}
 
 	return getaddrinfo(pNodeName, pServiceName, pHints, ppResult);
 }
