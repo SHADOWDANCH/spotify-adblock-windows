@@ -7,7 +7,7 @@
 #include <time.h>
 #include <WS2tcpip.h>
 
-std::list<std::string> blacklist = {};
+std::list<std::string> whitelist = {};
 
 void Log(const std::string& severity, const std::string& text)
 {
@@ -29,15 +29,15 @@ void Log(const std::string& severity, const std::string& text)
 
 INT WSAAPI getaddrinfoHook(const char* pNodeName, const char* pServiceName, const ADDRINFOA* pHints, PADDRINFOA* ppResult)
 {
-	if (std::find(blacklist.begin(), blacklist.end(), pNodeName) != blacklist.end())
+	if (std::find(whitelist.begin(), whitelist.end(), pNodeName) == whitelist.end())
 	{
 		Log("INFO", "Blocking " + std::string(pNodeName));
 		pNodeName = "0.0.0.0";
 	}
 	else
 	{
-		Log("INFO", "Allowing " + std::string(pNodeName));
-	}
+		//Log("INFO", "Allowing " + std::string(pNodeName));
+	}	
 
 	return getaddrinfo(pNodeName, pServiceName, pHints, ppResult);
 }
@@ -46,16 +46,18 @@ extern "C" void __declspec(dllexport) __stdcall NativeInjectionEntryPoint(REMOTE
 void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 {
 	// Init logging
+#ifdef _DEBUG
 	std::remove("adblock_log.txt");
+#endif
 	Log("INFO", "NativeInjectionEntryPoint called");
 
-	// Read blacklist file
-	std::ifstream infile("blacklist.txt");
+	// Read whitelist file
+	std::ifstream infile("whitelist.txt");
 	for (std::string line; std::getline(infile, line);)
 	{
-		blacklist.push_back(line);
+		whitelist.push_back(line);
 	}
-	Log("INFO", "Read " + std::to_string(blacklist.size()) + " entries from blacklist");
+	Log("INFO", "Read " + std::to_string(whitelist.size()) + " entries from whitelist");
 
 	// Perform hooking
 	HOOK_TRACE_INFO hHook = { NULL };
