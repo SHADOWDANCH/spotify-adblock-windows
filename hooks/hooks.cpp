@@ -11,7 +11,6 @@ std::list<std::string> whitelist = {};
 
 void Log(const std::string& severity, const std::string& text)
 {
-#ifdef _DEBUG
 	// Get date
 	char timeBuff[20];
 	struct tm *sTm;
@@ -22,9 +21,6 @@ void Log(const std::string& severity, const std::string& text)
 	// Write to file
 	std::ofstream logfile("adblock_log.txt", std::ios_base::out | std::ios_base::app);
 	logfile << "[" << timeBuff << "][" << severity << "] " << text << std::endl;
-
-	//MessageBoxA(NULL, text.c_str(), "Adblocker", MB_OK);
-#endif
 }
 
 INT WSAAPI getaddrinfoHook(const char* pNodeName, const char* pServiceName, const ADDRINFOA* pHints, PADDRINFOA* ppResult)
@@ -69,9 +65,7 @@ extern "C" void __declspec(dllexport) __stdcall NativeInjectionEntryPoint(REMOTE
 void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo)
 {
 	// Init logging
-#ifdef _DEBUG
 	std::remove("adblock_log.txt");
-#endif
 	Log("INFO", "NativeInjectionEntryPoint called");
 
 	// Read whitelist file
