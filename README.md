@@ -1,7 +1,8 @@
-# spotify-win-adblock
-Adblocker for the Windows desktop Spotify client. Works by blocking DNS lookups (by hooking WS2's getaddrinfo function) to hostnames that aren't necessary for the client to (mostly) function.
-
+# spotify-adblock-windows
+Adblocker for the Windows desktop Spotify client. Works by blocking DNS lookups and url request to not whitelisted URLs
 ## Usage
  - Build project (debug builds write logs)
- - Copy `whitelist.txt` to your build folder
  - Start `injector.exe`
+ ## Thanks to
+ - [csprl](https://github.com/csprl) for [original project](https://github.com/csprl/spotify-win-adblock)
+ - [abba23](https://github.com/abba23) for [linux version](https://github.com/abba23/spotify-adblock-linux) of adblocker
