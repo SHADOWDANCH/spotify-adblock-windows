@@ -27,17 +27,25 @@ static const char* whitelist[] = {
     "hwcdn.libsyn.com", // podcasts
     "traffic.libsyn.com", // podcasts
     "api*-desktop.musixmatch.com", // lyrics (genius-spicetify)
+    "*.podbean.com", // podcasts
+    "dts.podtrac.com", // podcasts
     "www.podtrac.com", // podcasts
     "audio.simplecast.com", // podcasts
     "media.simplecast.com", // podcasts
     "ap.spotify.com", // audio (access point)
-    "*.ap.spotify.com", // resolved access points
+    "*.ap.spotify.com", // access points
+    "ap-*.spotify.com", // access points
+    "api.spotify.com", // queue
+    "api-partner.spotify.com", // album/artist pages
     "apresolve.spotify.com", // access point resolving
-    "dealer.spotify.com", // player activity (websocket)
-    "image-upload.spotify.com", // image uploading
+    "clienttoken.spotify.com", // login
+    "*dealer.spotify.com", // websocket connections
+    "image-upload*.spotify.com", // image uploading
     "login*.spotify.com", // login
     "spclient.wg.spotify.com", // ads/tracking (blocked in blacklist), radio, recently played, friend activity,...
     "audio-fa.spotifycdn.com", // audio
+    "seed-mix-image.spotifycdn.com", // mix images
+    "download.ted.com", // podcasts
     "dcs*.megaphone.fm", // podcasts
     "traffic.megaphone.fm", // podcasts
     "audio-ak-spotify-com.akamaized.net", // audio
@@ -46,4 +54,6 @@ static const char* whitelist[] = {
     "audio4-ak.spotify.com.edgesuite.net", // audio
     "scontent*.fbcdn.net", // Facebook profile images
     "audio-sp-*.spotifycdn.net", // audio
+    "dovetail.prxu.org", // podcasts
+    "dovetail-cdn.prxu.org", // podcasts
 };
