@@ -12,9 +12,9 @@ const size_t whitelist_size = sizeof(whitelist) / sizeof(whitelist[0]);
 const size_t blacklist_size = sizeof(blacklist) / sizeof(blacklist[0]);
 
 #if _DEBUG
+std::ofstream logfile("adblock_log.txt", std::ios_base::trunc);
+
 void printlog(const std::string& text) {
-	// Write to file
-	std::ofstream logfile("adblock_log.txt", std::ios_base::out | std::ios_base::app);
 	logfile << text << std::endl;
 }
 #endif
@@ -62,8 +62,6 @@ cef_urlrequest_t* cef_urlrequest_createHook(_cef_request_t* request, struct _cef
 extern "C" void __declspec(dllexport) __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo);
 void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
 #if _DEBUG
-	// Init logging
-	std::remove("adblock_log.txt");
 	printlog("NativeInjectionEntryPoint called");
 #endif
 
